@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Father's Day, Dad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+
+  /* ============ TOKENS ============ */
+  :root{
+    --kraft:        #E7D9B9;
+    --kraft-deep:   #D9C49C;
+    --kraft-line:   #C8AF80;
+    --walnut:       #3B2A1E;
+    --walnut-2:     #2A1D14;
+    --brass:        #C0922E;
+    --brass-light:  #E0B45C;
+    --olive:        #5C6B47;
+    --cream:        #FBF6EA;
+    --ink:          #2A2118;
+    --ink-soft:     #5A4C3C;
+
+    --display: 'Fraunces', serif;
+    --body:    'Lora', serif;
+    --hand:    'Caveat', cursive;
+    --type:    'Special Elite', monospace;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--kraft);
+    color:var(--ink);
+    font-family:var(--body);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  img{ max-width:100%; display:block; }
+  h1,h2,h3{ font-family:var(--display); color:var(--walnut); font-weight:600; }
+  .script{ font-family:var(--hand); font-weight:700; color:var(--brass); }
+  a{ color:inherit; }
+
+  :focus-visible{ outline:3px dashed var(--brass); outline-offset:3px; }
+
+  /* ============ PAPER GRAIN OVERLAY ============ */
+  .grain{
+    position:fixed; inset:0; z-index:9999; pointer-events:none;
+    opacity:.05; mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    background-size:140px 140px;
+  }
+
+  /* ============ SCROLL PROGRESS ============ */
+  .progress-bar{
+    position:fixed; top:0; left:0; height:4px; width:0%;
+    background:linear-gradient(90deg, var(--olive), var(--brass));
+    z-index:10000;
+  }
+
+  /* ============ SHARED ============ */
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 1.5rem; }
+  .eyebrow{
+    font-family:var(--type); font-size:.78rem; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--olive);
+  }
+  .section-title{ font-size:clamp(2rem,5vw,3rem); margin-bottom:2.5rem; }
+  section{ position:relative; padding:6rem 0; }
+
+  .reveal{ opacity:0; transform:translateY(36px); transition:opacity .8s ease, transform .8s ease; }
+  .reveal.in-view{ opacity:1; transform:translateY(0); }
+
+  /* photo / gif placeholder frames --------------------------------- */
+  .photo-frame{
+    position:relative; overflow:hidden; background:var(--kraft-deep);
+    border:8px solid var(--cream);
+    box-shadow:0 10px 24px rgba(42,29,20,.25);
+  }
+  .photo-frame img{ width:100%; height:100%; object-fit:cover; }
+  .photo-frame img.broken{ display:none; }
+  .photo-fallback{
+    display:none; position:absolute; inset:0; flex-direction:column; gap:.4rem;
+    align-items:center; justify-content:center; text-align:center; padding:1rem;
+    background:repeating-linear-gradient(45deg, #DCC9A0, #DCC9A0 10px, #D2BB8C 10px, #D2BB8C 20px);
+    color:var(--ink-soft); font-family:var(--type); font-size:.72rem; line-height:1.5;
+  }
+  .photo-frame img.broken + .photo-fallback{ display:flex; }
+  .photo-fallback .icon{ font-size:1.6rem; }
+  .photo-fallback code{
+    background:rgba(59,42,30,.12); padding:.15rem .4rem; border-radius:3px; font-size:.7rem;
+  }
+
+  /* ============ HERO ============ */
+  .hero{
+    min-height:100vh; display:flex; align-items:center; padding-top:4rem;
+    background:
+      radial-gradient(circle at 80% 20%, rgba(192,146,46,.18), transparent 55%),
+      radial-gradient(circle at 10% 90%, rgba(92,107,71,.15), transparent 50%),
+      var(--kraft);
+  }
+  .hero .wrap{ display:flex; flex-wrap:wrap; align-items:center; gap:3rem; }
+  .hero-copy{ flex:1 1 360px; }
+  .hero-copy .eyebrow{ margin-bottom:1rem; }
+  .hero-title{ font-size:clamp(3rem,8vw,5.4rem); line-height:1.02; margin-bottom:1.2rem; }
+  .hero-sub{ max-width:30ch; color:var(--ink-soft); font-size:1.1rem; }
+
+  .hero-photo-wrap{ flex:0 0 auto; position:relative; }
+  .hero-polaroid{
+    width:230px; transform:rotate(4deg);
+    transition:transform .4s ease;
+  }
+  .hero-polaroid:hover{ transform:rotate(0deg) scale(1.03); }
+  .hero-polaroid .photo-frame{ width:100%; aspect-ratio:4/5; border-bottom-width:46px; }
+  .hero-polaroid .caption{
+    position:absolute; bottom:10px; left:0; right:0; text-align:center;
+    font-family:var(--hand); font-size:1.3rem; color:var(--ink-soft);
+  }
+  .tape{
+    position:absolute; top:-14px; left:50%; transform:translateX(-50%) rotate(-3deg);
+    width:70px; height:26px; background:rgba(224,180,92,.55);
+    box-shadow:0 2px 4px rgba(0,0,0,.15);
+  }
+
+  .scroll-cue{
+    position:absolute; bottom:2.4rem; left:50%; transform:translateX(-50%);
+    background:none; border:none; cursor:pointer;
+    font-family:var(--type); font-size:.78rem; letter-spacing:.1em;
+    color:var(--ink-soft); display:flex; flex-direction:column; align-items:center; gap:.4rem;
+  }
+  .scroll-cue .arrow{ animation:bob 1.8s ease-in-out infinite; font-size:1.1rem; color:var(--brass); }
+  @keyframes bob{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(8px);} }
+
+  /* ============ SAYINGS (flip cards) ============ */
+  .sayings{ background:var(--kraft); }
+  .sayings-sub{ color:var(--ink-soft); max-width:46ch; margin:-1.5rem 0 2.5rem; }
+  .sayings-grid{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:1.8rem;
+  }
+  .flip-card{
+    perspective:1200px; height:220px; cursor:pointer;
+  }
+  .flip-card-inner{
+    position:relative; width:100%; height:100%; text-align:center;
+    transition:transform .6s cubic-bezier(.4,.2,.2,1); transform-style:preserve-3d;
+  }
+  .flip-card:hover .flip-card-inner,
+  .flip-card.flipped .flip-card-inner{ transform:rotateY(180deg); }
+
+  .flip-front, .flip-back{
+    position:absolute; inset:0; backface-visibility:hidden;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:1.6rem; border-radius:4px;
+  }
+  .flip-front{
+    background:var(--cream); border:1px solid var(--kraft-line);
+    box-shadow:0 8px 18px rgba(42,29,20,.15);
+  }
+  .flip-front .quote-mark{ font-family:var(--display); font-size:2.2rem; color:var(--brass); line-height:1; margin-bottom:.4rem; }
+  .flip-front p{ font-family:var(--hand); font-size:1.5rem; color:var(--walnut); line-height:1.25; }
+  .flip-front .tap-hint{
+    position:absolute; bottom:.9rem; font-family:var(--type); font-size:.65rem;
+    letter-spacing:.1em; color:var(--ink-soft); opacity:.7;
+  }
+  .flip-back{
+    background:var(--olive); color:var(--cream); transform:rotateY(180deg);
+  }
+  .flip-back p{ font-size:.95rem; line-height:1.5; }
+
+  /* ============ LESSONS ============ */
+  .lessons{ background:var(--kraft-deep); }
+  .lessons-grid{
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(230px,1fr)); gap:1.6rem;
+  }
+  .notecard{
+    background:var(--cream); border:1px solid var(--kraft-line);
+    padding:1.8rem 1.6rem; box-shadow:0 6px 16px rgba(42,29,20,.12);
+    transition:transform .3s ease, box-shadow .3s ease;
+  }
+  .notecard:hover{ transform:translateY(-6px) rotate(-.5deg); box-shadow:0 14px 24px rgba(42,29,20,.2); }
+  .notecard svg{ width:30px; height:30px; stroke:var(--olive); margin-bottom:.9rem; }
+  .notecard h3{ font-size:1.15rem; margin-bottom:.5rem; }
+  .notecard p{ color:var(--ink-soft); font-size:.95rem; }
+  .lessons-grid .notecard:nth-child(1){ transition-delay:.02s; }
+  .lessons-grid .notecard:nth-child(2){ transition-delay:.08s; }
+  .lessons-grid .notecard:nth-child(3){ transition-delay:.14s; }
+  .lessons-grid .notecard:nth-child(4){ transition-delay:.20s; }
+  .lessons-grid .notecard:nth-child(5){ transition-delay:.26s; }
+  .lessons-grid .notecard:nth-child(6){ transition-delay:.32s; }
+
+  /* ============ LETTER ============ */
+  .letter-section{ background:var(--kraft); }
+  .letter{
+    background:var(--cream); max-width:900px; margin:0 auto;
+    box-shadow:0 16px 36px rgba(42,29,20,.22);
+    padding:3rem clamp(1.5rem,5vw,4rem);
+    display:flex; gap:2.5rem; flex-wrap:wrap; align-items:flex-start;
+    clip-path:polygon(0% 1.5%,2% 0%,6% 1%,11% 0%,16% 1.2%,22% 0%,28% 1%,34% 0%,40% 1.3%,46% 0%,52% 1%,58% 0%,64% 1.2%,70% 0%,76% 1%,82% 0%,88% 1.3%,94% 0%,100% 1%,100% 100%,0% 100%);
+  }
+  .letter-photo{ flex:0 0 220px; }
+  .letter-photo .photo-frame{ width:220px; height:270px; transform:rotate(-2deg); }
+  .letter-body{ flex:1 1 320px; }
+  .letter-body .eyebrow{ margin-bottom:1rem; }
+  .letter-body p{ margin-bottom:1.1rem; font-size:1.05rem; color:var(--ink); }
+  .signoff{ font-family:var(--hand); font-size:2rem; color:var(--brass); margin-top:1rem; }
+  .stamp{
+    width:64px; height:64px; border-radius:50%; border:3px solid var(--brass);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--hand); font-size:1.6rem; color:var(--brass);
+    transform:rotate(-8deg); margin-top:1rem;
+  }
+
+  /* ============ FOOTER ============ */
+  .finale{
+    background:radial-gradient(circle at 50% 0%, var(--walnut), var(--walnut-2));
+    color:var(--cream); text-align:center; padding:7rem 1.5rem 5rem;
+    position:relative; overflow:hidden;
+  }
+  .finale h2{
+    color:var(--cream); font-size:clamp(2.4rem,7vw,4.4rem); margin-bottom:1rem;
+  }
+  .finale h2 em{ font-style:italic; color:var(--brass-light); }
+  .finale p.sub{ color:#D8C9AE; font-family:var(--hand); font-size:1.6rem; margin-bottom:2.6rem; }
+
+  .finale-gif{
+    width:200px; margin:0 auto 2.4rem; border-radius:10px; overflow:hidden;
+    border:1px solid rgba(224,180,92,.35);
+  }
+  .finale-gif .photo-frame{ width:100%; aspect-ratio:1/1; border:none; background:rgba(255,255,255,.05); }
+  .finale-gif .photo-fallback{ background:rgba(224,180,92,.08); color:#D8C9AE; }
+
+  .credit{ font-family:var(--type); font-size:.72rem; letter-spacing:.08em; color:#9C8B73; margin-top:1rem; }
+
+  .float-heart{
+    position:absolute; bottom:-10%; font-size:1.2rem; color:var(--brass-light);
+    opacity:.7; animation:rise 9s linear infinite;
+  }
+  @keyframes rise{
+    0%{ transform:translateY(0) translateX(0) rotate(0deg); opacity:.8; }
+    100%{ transform:translateY(-115vh) translateX(20px) rotate(25deg); opacity:0; }
+  }
+
+  /* ============ REDUCED MOTION ============ */
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .reveal{ opacity:1 !important; transform:none !important; transition:none !important; }
+    .scroll-cue .arrow{ animation:none; }
+    .float-heart{ animation:none; display:none; }
+    .notecard, .hero-polaroid{ transition:none; }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- ============================================================ -->
+<!-- HERO -->
+<!-- ============================================================ -->
+<section class="hero" id="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <p class="eyebrow">a small page, typed and taped together</p>
+      <h1 class="hero-title">For my<br><span class="script">Dad</span></h1>
+      <!-- EDIT ME: write your own opening line to your father -->
+      <p class="hero-sub">Happy Father's Day. I made you something — scroll down, there's a story in here.</p>
+    </div>
+
+    <div class="hero-photo-wrap">
+      <div class="hero-polaroid">
+        <span class="tape"></span>
+        <!--
+          PHOTO PLACEHOLDER #1 — main hero photo
+          Put an image file at: images/dad-hero.jpg
+          (any photo of you and your dad, or just him)
+        -->
+        <div class="photo-frame">
+          <img src="images/dad-hero.jpg" alt="Dad" onerror="this.classList.add('broken')">
+          <div class="photo-fallback">
+            <span class="icon">📷</span>
+            Add a photo here<br><code>images/dad-hero.jpg</code>
+          </div>
+        </div>
+        <p class="caption">you &amp; me</p>
+      </div>
+    </div>
+  </div>
+
+  <button class="scroll-cue" onclick="document.getElementById('sayings').scrollIntoView({behavior:'smooth'})">
+    <span class="arrow">↓</span> scroll for the story
+  </button>
+</section>
+
+<!-- ============================================================ -->
+<!-- SAYINGS -->
+<!-- ============================================================ -->
+<section class="sayings" id="sayings">
+  <div class="wrap">
+    <h2 class="section-title reveal">Things you always <span class="script">say</span></h2>
+    <!-- EDIT ME: swap in your dad's actual catchphrases below -->
+    <p class="sayings-sub reveal">Click a card to flip it. (Tap on phone, hover on desktop.)</p>
+
+    <div class="sayings-grid">
+
+      <div class="flip-card reveal" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-front">
+            <span class="quote-mark">“</span>
+            <p>Just measure twice.</p>
+            <span class="tap-hint">tap to flip</span>
+          </div>
+          <div class="flip-back">
+            <p>...and I still don't, but I think of you every single time I mess it up.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card reveal" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-front">
+            <span class="quote-mark">“</span>
+            <p>We'll figure it out.</p>
+            <span class="tap-hint">tap to flip</span>
+          </div>
+          <div class="flip-back">
+            <p>You say it about everything, and somehow it's always true.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card reveal" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-front">
+            <span class="quote-mark">“</span>
+            <p>Eat something first.</p>
+            <span class="tap-hint">tap to flip</span>
+          </div>
+          <div class="flip-back">
+            <p>The answer to most problems, according to you. Honestly, still true.</p>
+          </div>
+        </div>
+      </div>
+
+      
+
+      <div class="flip-card reveal" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-front">
+            <span class="quote-mark">“</span>
+            <p>It's not that complicated.</p>
+            <span class="tap-hint">tap to flip</span>
+          </div>
+          <div class="flip-back">
+            <p>It usually is, but you make it sound simple until it actually becomes simple.</p>
+          </div>
+        </div>
+      </div>
+
+      
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- LESSONS -->
+<!-- ============================================================ -->
+<section class="lessons">
+  <div class="wrap">
+    <h2 class="section-title reveal">What you <span class="script">taught us</span></h2>
+    <div class="lessons-grid">
+
+      <div class="notecard reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        <h3>Patience</h3>
+        <p>You never once made waiting feel like wasted time.</p>
+      </div>
+
+      <div class="notecard reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M14.7 6.3 17.7 9.3 8 19 4 20 5 16Z"/><path d="M13 8 16 11"/></svg>
+        <h3>Hard work</h3>
+        <p>We learned what showing up every day actually looks like.</p>
+      </div>
+
+      <div class="notecard reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M3 21 8 16M8 16 6 14 11 9 13 11 8 16Z"/><path d="M14 4 20 10 17 13 11 7Z"/></svg>
+        <h3>Fixing things</h3>
+        <p>There was never a problem you didn't at least try to fix yourself.</p>
+      </div>
+
+      <div class="notecard reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6Z"/></svg>
+        <h3>Quiet courage</h3>
+        <p>You faced the hard things first, so we'd be brave enough to face ours.</p>
+      </div>
+
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- LETTER -->
+<!-- ============================================================ -->
+<section class="letter-section">
+  <div class="wrap">
+    <div class="letter reveal">
+      <div class="letter-photo">
+        <!-- PHOTO PLACEHOLDER #2 → images/dad-letter.jpg -->
+        <div class="photo-frame">
+          <img src="images/dad-letter.jpg" alt="Dad" onerror="this.classList.add('broken')">
+          <div class="photo-fallback"><span class="icon">📷</span>Add a photo<br><code>images/dad-letter.jpg</code></div>
+        </div>
+        <div class="stamp">❤</div>
+      </div>
+      <div class="letter-body">
+        <span class="eyebrow">one more thing, before you go</span>
+        <!-- EDIT ME: this whole paragraph is yours to rewrite -->
+        <p>Dad — if we could put just one thing in this letter, it's thank you. Thank you for the years you made look easy, even on the days they weren't. For showing up, every single time, even when showing up was the hard part.</p>
+        <p>For teaching us things you never actually said out loud — the kind you only learn from watching someone do them, again and again, without ever asking for credit.</p>
+        <p>I hope this small page does what it really can't: hold even a fraction of that. Happy Father's Day.</p>
+        <p class="signoff">— your family</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- FINALE -->
+<!-- ============================================================ -->
+<section class="finale">
+  <span class="float-heart" style="left:12%; animation-delay:0s;">❤</span>
+  <span class="float-heart" style="left:28%; animation-delay:2s; font-size:.9rem;">❤</span>
+  <span class="float-heart" style="left:48%; animation-delay:4s;">❤</span>
+  <span class="float-heart" style="left:65%; animation-delay:1s; font-size:1.4rem;">❤</span>
+  <span class="float-heart" style="left:80%; animation-delay:3s;">❤</span>
+  <span class="float-heart" style="left:92%; animation-delay:5s; font-size:.8rem;">❤</span>
+
+  <div class="finale-gif">
+    <!--
+      GIF PLACEHOLDER — put a celebratory gif at: images/celebration.gif
+      (confetti, a happy dance, anything you like)
+    -->
+    <div class="photo-frame">
+      <img src="images/celebration.gif" alt="Celebration" onerror="this.classList.add('broken')">
+      <div class="photo-fallback"><span class="icon">🎉</span>Add a gif<br><code>images/celebration.gif</code></div>
+    </div>
+  </div>
+
+  <h2 class="reveal">Happy <em>Father's Day</em></h2>
+  <p class="sub">with love, today and always</p>
+  <p class="credit">made for the best dad — 2026</p>
+</section>
+
+<script>
+  // ---- scroll progress bar ----
+  const progressBar = document.getElementById('progressBar');
+  function updateProgress(){
+    const h = document.documentElement;
+    const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+    progressBar.style.width = scrolled + '%';
+  }
+
+  // ---- reveal on scroll ----
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+
+  // ---- flip cards also work via keyboard (Enter/Space) ----
+  document.querySelectorAll('.flip-card').forEach(card => {
+    card.setAttribute('tabindex', '0');
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.classList.toggle('flipped');
+      }
+    });
+  });
+
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  window.addEventListener('load', updateProgress);
+</script>
+
+</body>
+</html>
